@@ -1,0 +1,20 @@
+{
+  "name": "cekta/framework-contract",
+  "description": "Contracts to external usage",
+  "type": "library",
+  "license": "GPL-3.0-only",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Cekta\\Framework\\Contract\\": "src/"
+    }
+  },
+  "require": {},
+  "authors": [
+    {
+      "name": "Evgeniy Kuvshinov",
+      "email": "smpl@itmywork.com"
+    }
+  ]
+}
