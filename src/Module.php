@@ -12,13 +12,19 @@ use ReflectionClass;
 interface Module
 {
     /**
-     * method call every time to get params for Container object
+     * Returns container parameters (e.g., configuration parameters).
+     * Called on every container request.
+     *
+     * @param mixed $cachedData cached data (result of getCacheableData)
      * @return array<string, mixed>
      */
-    public function onCreate(string $encoded_module): array;
+    public function onCreateParameters(mixed $cachedData): array;
 
     /**
-     * method call once, when build (generation) Container class
+     * Returns service definitions for building (generating) the container class.
+     * Called once when the container is being built (e.g., after cache invalidation).
+     *
+     * @param mixed $cachedData cached data
      * @return array{
      *     entries?: string[],
      *     alias?: array<string, string>,
@@ -26,18 +32,22 @@ interface Module
      *     factories?: string[],
      * }
      */
-    public function onBuild(string $encoded_module): array;
+    public function onBuildDefinitions(mixed $cachedData): array;
 
     /**
-     * method called for all classes from class provider
+     * Called for each project class during the discovery phase.
+     * Can be used to collect metadata.
+     *
      * @param ReflectionClass<object> $class
-     * @return void
      */
     public function discover(ReflectionClass $class): void;
 
     /**
-     * this string will be cached and sent to all methods
-     * @return string
+     * Returns serializable module state for caching.
+     * The result must be successfully json_encode-able.
+     * This data will later be passed as $cachedData to onCreateParameters and onBuildDefinitions.
+     *
+     * @return mixed
      */
-    public function getEncodedModule(): string;
+    public function getCacheableData(): mixed;
 }
